@@ -50,6 +50,21 @@ app.use('/api/messages', require('./routes/messageRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
 
+// Root friendly landing route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to StayNest API Server!',
+    status: 'Live & Healthy',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      listings: '/api/listings',
+      auth: '/api/auth'
+    }
+  });
+});
+
 // Basic health check route
 app.get('/api/health', (req, res) => {
   res.status(200).json({ success: true, message: 'StayNest API is running smoothly' });
