@@ -9,6 +9,8 @@ const Booking = require('../models/Booking');
 
 dotenv.config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const inputData = {
   "properties": [
@@ -946,9 +948,9 @@ function downloadImage(url, dest) {
 
 async function seedData() {
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/staynest';
+    const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/staynest';
     console.log(`Connecting to MongoDB: ${mongoUri}...`);
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, { tls: true, tlsAllowInvalidCertificates: true });
     console.log('MongoDB Connected!');
 
     // Clear existing data
